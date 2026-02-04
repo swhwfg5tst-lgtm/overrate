@@ -177,11 +177,11 @@
           <button class="hero-carousel-arrow hero-carousel-prev" type="button" aria-label="Предыдущий слайд">‹</button>
           <button class="hero-carousel-arrow hero-carousel-next" type="button" aria-label="Следующий слайд">›</button>
 
-          <div class="hero-dots" aria-hidden="true">
-            <button type="button" class="hero-dot is-active" data-index="0"></button>
-            <button type="button" class="hero-dot" data-index="1"></button>
-            <button type="button" class="hero-dot" data-index="2"></button>
-            <button type="button" class="hero-dot" data-index="3"></button>
+          <div class="hero-dots">
+            <button type="button" class="hero-dot is-active" data-index="0" aria-label="Слайд 1"></button>
+            <button type="button" class="hero-dot" data-index="1" aria-label="Слайд 2"></button>
+            <button type="button" class="hero-dot" data-index="2" aria-label="Слайд 3"></button>
+            <button type="button" class="hero-dot" data-index="3" aria-label="Слайд 4"></button>
           </div>
         </div>
       </div>
@@ -703,6 +703,7 @@
               <textarea name="comment"
                         placeholder="Укажите особенности груза, желаемые сроки, наличие разгрузки и т.д."></textarea>
             </div>
+            <div class="form-status" role="status" aria-live="polite"></div>
             <div class="form-row form-row-actions">
               <button type="submit" class="btn-primary">Отправить и получить расчёт</button>
               <span class="form-note">Нажимая кнопку, вы подтверждаете согласие с политикой обработки персональных данных.</span>

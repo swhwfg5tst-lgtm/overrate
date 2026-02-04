@@ -177,11 +177,11 @@
           <button class="hero-carousel-arrow hero-carousel-prev" type="button" aria-label="上一张">‹</button>
           <button class="hero-carousel-arrow hero-carousel-next" type="button" aria-label="下一张">›</button>
 
-          <div class="hero-dots" aria-hidden="true">
-            <button type="button" class="hero-dot is-active" data-index="0"></button>
-            <button type="button" class="hero-dot" data-index="1"></button>
-            <button type="button" class="hero-dot" data-index="2"></button>
-            <button type="button" class="hero-dot" data-index="3"></button>
+          <div class="hero-dots">
+            <button type="button" class="hero-dot is-active" data-index="0" aria-label="幻灯片 1"></button>
+            <button type="button" class="hero-dot" data-index="1" aria-label="幻灯片 2"></button>
+            <button type="button" class="hero-dot" data-index="2" aria-label="幻灯片 3"></button>
+            <button type="button" class="hero-dot" data-index="3" aria-label="幻灯片 4"></button>
           </div>
         </div>
       </div>
@@ -702,6 +702,7 @@
               <textarea name="comment"
                         placeholder="请说明货物特点、期望时效、是否需要装卸等信息"></textarea>
             </div>
+            <div class="form-status" role="status" aria-live="polite"></div>
             <div class="form-row form-row-actions">
               <button type="submit" class="btn-primary">提交申请并获取报价</button>
               <span class="form-note">点击提交即表示您同意我们的个人信息处理政策。</span>
