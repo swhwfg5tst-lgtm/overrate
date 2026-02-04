@@ -2,8 +2,59 @@
 header('Content-Type: application/json; charset=UTF-8');
 
 // --- настройки Telegram ---
-$telegram_token = getenv('TELEGRAM_TOKEN') ?: '';
-$telegram_chat  = getenv('TELEGRAM_CHAT_ID') ?: '';
+function get_env_value(string $key): string
+{
+    $value = getenv($key);
+    if ($value === false || $value === '') {
+        $value = $_ENV[$key] ?? '';
+    }
+    if ($value === '') {
+        $value = $_SERVER[$key] ?? '';
+    }
+
+    return is_string($value) ? trim($value) : '';
+}
+
+function load_env_file(string $path): array
+{
+    if (!is_readable($path)) {
+        return [];
+    }
+
+    $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    if ($lines === false) {
+        return [];
+    }
+
+    $data = [];
+    foreach ($lines as $line) {
+        if (str_starts_with(trim($line), '#')) {
+            continue;
+        }
+        if (!str_contains($line, '=')) {
+            continue;
+        }
+        [$k, $v] = explode('=', $line, 2);
+        $k = trim($k);
+        $v = trim($v);
+        $v = trim($v, "\"'");
+        if ($k !== '') {
+            $data[$k] = $v;
+        }
+    }
+
+    return $data;
+}
+
+$telegram_token = get_env_value('TELEGRAM_TOKEN');
+$telegram_chat  = get_env_value('TELEGRAM_CHAT_ID');
+
+if ($telegram_token === '' || $telegram_chat === '') {
+    $env_data = load_env_file(__DIR__ . '/.env');
+    $telegram_token = $telegram_token ?: ($env_data['TELEGRAM_TOKEN'] ?? '');
+    $telegram_chat = $telegram_chat ?: ($env_data['TELEGRAM_CHAT_ID'] ?? '');
+}
+
 
 // --- получение полей формы ---
 $from_city   = trim($_POST['from_city']    ?? '');
@@ -110,12 +161,13 @@ curl_setopt_array($ch, [
 
 $result = curl_exec($ch);
 $err    = curl_error($ch);
+$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 curl_close($ch);
 
-if ($result !== false) {
+if ($result !== false && $status >= 200 && $status < 300) {
     echo json_encode(['status' => 'ok']);
 } else {
-    error_log('TELEGRAM ERROR: ' . $err);
+    error_log('TELEGRAM ERROR: ' . ($err ?: 'HTTP ' . $status . ' response: ' . $result));
     http_response_code(500);
     echo json_encode([
         'status'  => 'error',
