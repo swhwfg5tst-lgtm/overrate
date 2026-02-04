@@ -833,6 +833,11 @@ section:nth-of-type(even) {
   flex-wrap: wrap;
 }
 
+.form-row-actions {
+  align-items: center;
+  margin-top: 6px;
+}
+
 .form-group {
   flex: 1 1 120px;
   min-width: 0;
@@ -843,6 +848,26 @@ label {
   font-size: 12px;
   color: var(--text-muted);
   margin-bottom: 4px;
+}
+
+.contact-messenger-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.contact-messenger-checkbox {
+  width: auto;
+  margin: 0;
+}
+
+.messenger-label {
+  margin-top: 6px;
+}
+
+.form-honeypot {
+  display: none;
 }
 
 .field-optional {
@@ -959,10 +984,38 @@ textarea {
   box-shadow: 0 4px 12px rgba(21,101,192,0.30);
 }
 
+.map-legend-note {
+  margin-top: 8px;
+}
+
 .map-inline-card h3 {
   font-size: 16px;
   margin-bottom: 8px;
   color: var(--text-main);
+}
+
+.map-embed {
+  position: relative;
+  overflow: hidden;
+}
+
+.map-embed-link {
+  color: #eee;
+  font-size: 12px;
+  position: absolute;
+  left: 0;
+}
+
+.map-embed-link--top {
+  top: 0;
+}
+
+.map-embed-link--bottom {
+  top: 14px;
+}
+
+.map-embed-frame {
+  position: relative;
 }
 
 .map-inline-frame iframe {
@@ -970,6 +1023,12 @@ textarea {
 }
 
 .map-note {
+  margin-top: 8px;
+}
+
+.policy-note {
+  font-size: 12px;
+  color: #6b7280;
   margin-top: 8px;
 }
 
