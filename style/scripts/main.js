@@ -41,6 +41,18 @@ function fillYear() {
   if (yEl) yEl.textContent = new Date().getFullYear();
 }
 
+function setupHeaderOffset() {
+  const header = document.querySelector('header');
+  if (!header) return;
+
+  const setOffset = () => {
+    document.documentElement.style.setProperty('--header-offset', `${header.offsetHeight}px`);
+  };
+
+  setOffset();
+  window.addEventListener('resize', setOffset);
+}
+
 function setupBurger() {
   const burger = document.querySelector('.burger');
   const mobileMenu = document.getElementById('mobile-menu');
@@ -380,6 +392,14 @@ function clearFieldError(input, hint) {
   }
 }
 
+function setFormStatus(form, message, type) {
+  const statusEl = form.querySelector('.form-status');
+  if (!statusEl) return;
+  statusEl.textContent = message || '';
+  statusEl.classList.toggle('is-error', type === 'error');
+  statusEl.classList.toggle('is-success', type === 'success');
+}
+
 function setupBasicFormValidation() {
   const form = document.querySelector('#request form');
   if (!form) return;
@@ -401,6 +421,7 @@ function setupBasicFormValidation() {
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    setFormStatus(form, '', '');
 
     let hasError = false;
 
@@ -422,6 +443,7 @@ function setupBasicFormValidation() {
     if (digits.length < 11) {
       const phoneHint = phoneInput.parentElement?.querySelector('.input-hint');
       setFieldError(phoneInput, phoneHint, 'Пожалуйста, укажите корректный номер телефона.');
+      setFormStatus(form, 'Проверьте корректность номера телефона.', 'error');
       phoneInput.focus();
       return;
     }
@@ -429,6 +451,7 @@ function setupBasicFormValidation() {
     if (hasError) {
       const firstError = form.querySelector('.input-error');
       firstError?.focus();
+      setFormStatus(form, 'Проверьте обязательные поля.', 'error');
       return;
     }
 
@@ -452,11 +475,12 @@ function setupBasicFormValidation() {
       if (response.ok && data && data.status === 'ok') {
         form.reset();
         openSuccessModal();
+        setFormStatus(form, 'Заявка отправлена. Мы свяжемся с вами в рабочее время.', 'success');
       } else {
-        alert((data && data.message) || 'Не удалось отправить заявку. Попробуйте ещё раз.');
+        setFormStatus(form, (data && data.message) || 'Не удалось отправить заявку. Попробуйте ещё раз.', 'error');
       }
     } catch (err) {
-      alert('Ошибка сети при отправке заявки. Попробуйте ещё раз.');
+      setFormStatus(form, 'Ошибка сети при отправке заявки. Попробуйте ещё раз.', 'error');
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;
@@ -470,6 +494,7 @@ function initPage() {
   setupSmoothAnchorLinks();
   fillExperience();
   fillYear();
+  setupHeaderOffset();
   setupBurger();
   setupPolicyModal();
   setupRulesModal();

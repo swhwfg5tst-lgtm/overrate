@@ -177,11 +177,11 @@
           <button class="hero-carousel-arrow hero-carousel-prev" type="button" aria-label="Previous slide">‹</button>
           <button class="hero-carousel-arrow hero-carousel-next" type="button" aria-label="Next slide">›</button>
 
-          <div class="hero-dots" aria-hidden="true">
-            <button type="button" class="hero-dot is-active" data-index="0"></button>
-            <button type="button" class="hero-dot" data-index="1"></button>
-            <button type="button" class="hero-dot" data-index="2"></button>
-            <button type="button" class="hero-dot" data-index="3"></button>
+          <div class="hero-dots">
+            <button type="button" class="hero-dot is-active" data-index="0" aria-label="Slide 1"></button>
+            <button type="button" class="hero-dot" data-index="1" aria-label="Slide 2"></button>
+            <button type="button" class="hero-dot" data-index="2" aria-label="Slide 3"></button>
+            <button type="button" class="hero-dot" data-index="3" aria-label="Slide 4"></button>
           </div>
         </div>
       </div>
@@ -703,6 +703,7 @@ clarify the details, and offer the best delivery option based on timelines and b
               <textarea name="comment"
                         placeholder="Describe cargo details, preferred dates, unloading requirements, etc."></textarea>
             </div>
+            <div class="form-status" role="status" aria-live="polite"></div>
             <div class="form-row form-row-actions">
               <button type="submit" class="btn-primary">Get a quote</button>
               <span class="form-note">By submitting this form, you agree to the processing of your personal data.</span>

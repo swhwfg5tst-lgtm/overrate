@@ -96,7 +96,7 @@ header {
 }
 
 main {
-  padding-top: 140px; /* подгони под реальную высоту хедера */
+  padding-top: var(--header-offset, 140px);
 }
 
 .top-bar {
@@ -226,6 +226,37 @@ nav a:hover {
   margin-top: 6px;
   font-size: 13px;
   padding: 8px 14px;
+}
+
+.form-status {
+  margin: 12px 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: #f8fafc;
+  font-size: 14px;
+  color: var(--text-muted);
+  min-height: 18px;
+}
+
+.form-status:empty {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  min-height: 0;
+}
+
+.form-status.is-error {
+  color: #b91c1c;
+  border-color: #fecaca;
+  background: #fef2f2;
+}
+
+.form-status.is-success {
+  color: #15803d;
+  border-color: #bbf7d0;
+  background: #f0fdf4;
 }
 
 /* плавающая кнопка Telegram */

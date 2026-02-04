@@ -41,6 +41,18 @@ function fillYear() {
   if (yEl) yEl.textContent = new Date().getFullYear();
 }
 
+function setupHeaderOffset() {
+  const header = document.querySelector('header');
+  if (!header) return;
+
+  const setOffset = () => {
+    document.documentElement.style.setProperty('--header-offset', `${header.offsetHeight}px`);
+  };
+
+  setOffset();
+  window.addEventListener('resize', setOffset);
+}
+
 function setupBurger() {
   const burger = document.querySelector('.burger');
   const mobileMenu = document.getElementById('mobile-menu');
@@ -375,6 +387,14 @@ function clearFieldError(input, hint) {
   }
 }
 
+function setFormStatus(form, message, type) {
+  const statusEl = form.querySelector('.form-status');
+  if (!statusEl) return;
+  statusEl.textContent = message || '';
+  statusEl.classList.toggle('is-error', type === 'error');
+  statusEl.classList.toggle('is-success', type === 'success');
+}
+
 function setupBasicFormValidation() {
   const form = document.querySelector('#request form');
   if (!form) return;
@@ -396,6 +416,7 @@ function setupBasicFormValidation() {
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    setFormStatus(form, '', '');
 
     let hasError = false;
 
@@ -417,6 +438,7 @@ function setupBasicFormValidation() {
     if (digits.length < 10) {
       const phoneHint = phoneInput.parentElement?.querySelector('.input-hint');
       setFieldError(phoneInput, phoneHint, 'Please enter a valid phone number.');
+      setFormStatus(form, 'Please check the phone number format.', 'error');
       phoneInput.focus();
       return;
     }
@@ -424,6 +446,7 @@ function setupBasicFormValidation() {
     if (hasError) {
       const firstError = form.querySelector('.input-error');
       firstError?.focus();
+      setFormStatus(form, 'Please fill in the required fields.', 'error');
       return;
     }
 
@@ -447,11 +470,12 @@ function setupBasicFormValidation() {
       if (response.ok && data && data.status === 'ok') {
         form.reset();
         openSuccessModal();
+        setFormStatus(form, 'Request sent. We will contact you during business hours.', 'success');
       } else {
-        alert((data && data.message) || 'Failed to submit the request. Please try again.');
+        setFormStatus(form, (data && data.message) || 'Failed to submit the request. Please try again.', 'error');
       }
     } catch (err) {
-      alert('Network error while sending the request. Please try again.');
+      setFormStatus(form, 'Network error while sending the request. Please try again.', 'error');
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;
@@ -465,6 +489,7 @@ function initPage() {
   setupSmoothAnchorLinks();
   fillExperience();
   fillYear();
+  setupHeaderOffset();
   setupBurger();
   setupPolicyModal();
   setupRulesModal();
