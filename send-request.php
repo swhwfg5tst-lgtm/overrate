@@ -55,6 +55,7 @@ if ($telegram_token === '' || $telegram_chat === '') {
     $telegram_chat = $telegram_chat ?: ($env_data['TELEGRAM_CHAT_ID'] ?? '');
 }
 
+
 // --- получение полей формы ---
 $from_city   = trim($_POST['from_city']    ?? '');
 $to_city     = trim($_POST['to_city']      ?? '');
@@ -79,7 +80,7 @@ if ($telegram_token === '' || $telegram_chat === '') {
     http_response_code(500);
     echo json_encode([
         'status'  => 'error',
-        'message' => 'Не настроены переменные TELEGRAM_TOKEN и TELEGRAM_CHAT_ID.'
+        'message' => 'Не удалось отправить заявку. Попробуйте позже.'
     ]);
     exit;
 }
