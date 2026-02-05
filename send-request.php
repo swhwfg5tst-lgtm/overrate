@@ -1,9 +1,35 @@
 <?php
 header('Content-Type: application/json; charset=UTF-8');
 
+function load_env_file(string $path): array {
+    if (!is_readable($path)) return [];
+
+    $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    if ($lines === false) return [];
+
+    $data = [];
+    foreach ($lines as $line) {
+        $line = trim($line);
+        if ($line === '' || substr($line, 0, 1) === '#') continue;
+        if (strpos($line, '=') === false) continue;
+
+        [$k, $v] = explode('=', $line, 2);
+        $data[trim($k)] = trim($v, " \"'");
+    }
+
+    return $data;
+}
+
+
 // --- настройки Telegram ---
 $telegram_token = getenv('TELEGRAM_BOT_TOKEN') ?: '';
 $telegram_chat  = getenv('TELEGRAM_CHAT_ID') ?: '';
+
+if ($telegram_token === '' || $telegram_chat === '') {
+    $env = load_env_file(__DIR__ . '/.env');
+    $telegram_token = $telegram_token ?: ($env['TELEGRAM_BOT_TOKEN'] ?? '');
+    $telegram_chat  = $telegram_chat ?: ($env['TELEGRAM_CHAT_ID'] ?? '');
+}
 
 if ($telegram_token === '' || $telegram_chat === '') {
     http_response_code(500);
